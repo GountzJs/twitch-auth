@@ -36,6 +36,8 @@ export function FormLogin() {
 			!value.includes("edit")
 	);
 
+	const getScopeLabel = (scope: keyof typeof scopeLabels) => scopeLabels[scope];
+
 	return (
 		<Formik
 			initialValues={initialValues}
@@ -80,7 +82,7 @@ export function FormLogin() {
 									placeholder="Cliente Secreto"
 								/>
 								<label htmlFor={value} className="text-white font-bold">
-									{scopeLabels[key]}
+									{getScopeLabel(key as keyof typeof scopeLabels)}
 								</label>
 							</div>
 						)),
@@ -103,7 +105,7 @@ export function FormLogin() {
 									placeholder="Cliente Secreto"
 								/>
 								<label htmlFor={value} className="text-white font-bold">
-									{scopeLabels[key]}
+									{getScopeLabel(key as keyof typeof scopeLabels)}
 								</label>
 							</div>
 						)),
@@ -126,7 +128,7 @@ export function FormLogin() {
 									placeholder="Cliente Secreto"
 								/>
 								<label htmlFor={value} className="text-white font-bold">
-									{scopeLabels[key]}
+									{getScopeLabel(key as keyof typeof scopeLabels)}
 								</label>
 							</div>
 						)),
@@ -149,7 +151,7 @@ export function FormLogin() {
 									placeholder="Cliente Secreto"
 								/>
 								<label htmlFor={value} className="text-white font-bold">
-									{scopeLabels[key]}
+									{getScopeLabel(key as keyof typeof scopeLabels)}
 								</label>
 							</div>
 						)),
