@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { twitchScopes } from "@/consts/twitchScopes";
+import { REDIRECT_URL } from "@/consts/url";
 import { Field, Form, Formik } from "formik";
 import { AccordionBox } from "../accordion";
 import { scopeLabels } from "./scopeLabes";
@@ -54,7 +55,7 @@ export function FormLogin() {
 					})
 					.filter((vl) => vl);
 				window.location.href = `
-					https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=http://localhost:3000/qr&response_type=code&scope=${scopes.join(
+					https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${REDIRECT_URL}&response_type=code&scope=${scopes.join(
 					"+"
 				)}
 				`;
