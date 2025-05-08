@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { Tab, TabsBox, TabsList } from "./components/tabs";
 
+enum TabKey {
+  Generate = "generate",
+  Qr = "qr",
+}
+
 export function App() {
-  const [activeTab, setActiveTab] = useState<"generate" | "qr">("generate");
+  const [activeTab, setActiveTab] = useState<TabKey>(TabKey.Generate);
   const [token, setToken] = useState<string | null>(null);
+
+  const changeTab = (key: TabKey) => setActiveTab(key);
 
   return (
     <div className="bg-gray-800 flex items-center justify-center h-screen w-screen">
@@ -17,23 +24,23 @@ export function App() {
         <TabsBox>
           <TabsList>
             <Tab
-              isActive={activeTab === "generate"}
+              isActive={activeTab === TabKey.Generate}
               className="w-48"
-              onClick={() => setActiveTab("generate")}
+              onClick={() => changeTab(TabKey.Generate)}
             >
               Generar nuevo Token
             </Tab>
             <Tab
-              isActive={activeTab === "qr"}
+              isActive={activeTab === TabKey.Qr}
               className="w-48"
               disabled={!token}
-              onClick={() => setActiveTab("qr")}
+              onClick={() => changeTab(TabKey.Qr)}
             >
               Ver Token QR
             </Tab>
           </TabsList>
-          {activeTab === "generate" && <div>Generar nuevo Token</div>}
-          {activeTab === "qr" && <div>Ver Token QR</div>}
+          {activeTab === TabKey.Generate && <div>Generar nuevo Token</div>}
+          {activeTab === TabKey.Qr && <div>Ver Token QR</div>}
         </TabsBox>
       </main>
     </div>
