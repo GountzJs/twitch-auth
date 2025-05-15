@@ -13,7 +13,7 @@ export function Tab({ children, isActive = false, ...props }: Props) {
     <button
       {...props}
       type="button"
-      className={`rounded-md text-white font-semibold text-center py-1 px-6 text-sm transition-colors duration-300 ${isActiveStyles} ${isDisabledStyles} ${props.className}`.trim()}
+      className={`rounded-md text-white font-semibold text-center py-2 px-6 text-sm transition-colors select-none duration-300 ${isActiveStyles} ${isDisabledStyles} ${props.className}`.trim()}
     >
       {children}
     </button>

@@ -1,11 +1,11 @@
+import { BtnPrimary } from "@/components/atoms/btn-primary";
+import { useUser } from "@/contexts/user.context";
+import { useTwitchOAuth } from "@/hooks/twitch-oauth.hook.ts";
+import twitchLogo from "@assets/twitch.svg";
 import { useState } from "react";
-import twitchLogo from "../../../../assets/twitch.svg";
-import { useUser } from "../../../contexts/user.context";
-import { BtnPrimary } from "../../atoms/btn-primary";
 
 interface FormProps {
   clientId: string;
-  username: string;
   scopes: string[];
 }
 
@@ -14,10 +14,11 @@ interface FormLoginProps {
 }
 
 export function FormLogin({ isLoadingToken }: FormLoginProps) {
-  const { user } = useUser();
+  const { login, isLoading } = useTwitchOAuth();
+  const { setUser, getUser } = useUser();
+  const user = getUser();
   const [form, setForm] = useState<FormProps>({
     clientId: user?.clientId || "",
-    username: user?.username || "",
     scopes: [
       "chat:read",
       "chat:edit",
@@ -31,8 +32,18 @@ export function FormLogin({ isLoadingToken }: FormLoginProps) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { scopes, clientId } = form;
+    setUser({ clientId });
+    login(clientId, scopes);
+  };
+
   return (
-    <form className="flex flex-col items-center gap-4 w-full">
+    <form
+      className="flex flex-col items-center gap-4 w-full"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         className="text-white outline-white outline-2 rounded-md py-2 px-6 w-full"
@@ -41,21 +52,14 @@ export function FormLogin({ isLoadingToken }: FormLoginProps) {
         value={form.clientId}
         onChange={handleChange}
         autoComplete="off"
+        pattern="^[a-z0-9]{30}$"
       />
-      <input
-        type="text"
-        className="text-white outline-white outline-2 rounded-md py-2 px-6 w-full"
-        placeholder="Ingrese su usuario de twitch"
-        name="username"
-        value={form.username}
-        onChange={handleChange}
-        autoComplete="off"
-      />
+
       <BtnPrimary
-        type="button"
+        type="submit"
         className="flex items-center gap-2"
-        disabled={isLoadingToken}
-        isLoading={isLoadingToken}
+        disabled={isLoadingToken || isLoading}
+        isLoading={isLoadingToken || isLoading}
       >
         <img src={twitchLogo} alt="Twitch Logo" className="w-6 h-6" />
         Iniciar sesión con Twitch

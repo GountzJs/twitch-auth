@@ -6,16 +6,14 @@ export function useTwitchAccessTokenHook() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const hash = window.location.hash;
+    const params = new URLSearchParams(window.location.search);
 
-    if (!hash) {
+    if (!params.size || params.size === 0) {
       setIsLoading(false);
       return;
     }
 
-    const params = new URLSearchParams(hash.substring(1));
-
-    const accessToken = params.get("access_token");
+    const accessToken = params.get("code");
     const oauthError = params.get("error");
 
     if (accessToken) {
