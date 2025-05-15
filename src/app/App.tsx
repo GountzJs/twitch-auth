@@ -3,7 +3,7 @@ import { FormLogin } from "@/components/molecules/form-login";
 import { SectionQR } from "@/components/molecules/section-qr/index.tsx";
 import { UserProvider } from "@/contexts/user.context.tsx";
 import { useTwitchAccessTokenHook } from "@/hooks/get-token-twitch.hook.ts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 enum TabKey {
   Generate = "generate",
@@ -13,6 +13,12 @@ enum TabKey {
 export function App() {
   const [activeTab, setActiveTab] = useState<TabKey>(TabKey.Generate);
   const { token, isLoading: isLoadingToken } = useTwitchAccessTokenHook();
+
+  useEffect(() => {
+    if (token) {
+      setActiveTab(TabKey.Qr);
+    }
+  }, [token]);
 
   const changeTab = (key: TabKey) => setActiveTab(key);
 
