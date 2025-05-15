@@ -15,14 +15,9 @@ export function useClipboardCopyHook() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const delayForce = async () => {
-    return new Promise((resolve) => setTimeout(resolve, 2500));
-  };
-
   const handlerOnCopy = async (value: string) => {
     setIsLoading(true);
     setIsCopied(true);
-    await delayForce();
     try {
       await navigator.clipboard.writeText(value);
       setTimer(
